@@ -65,3 +65,6 @@ Thumbs.db
 
 # Webdev artifacts (checkpoint zips, migrations, etc.)
 .webdev/
+
+# Locally built Windows artifacts
+/desktop/release/

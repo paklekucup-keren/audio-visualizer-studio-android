@@ -1,0 +1,32 @@
+appId: com.manus.audiovisualizer
+productName: Audio Visualizer Studio
+artifactName: Audio-Visualizer-Studio-${version}-${arch}.${ext}
+directories:
+  output: release
+  buildResources: assets
+files:
+  - main.cjs
+  - preload.cjs
+  - package.json
+extraResources:
+  - from: ../visualizer
+    to: visualizer
+  - from: node_modules/@ffmpeg-installer/win32-ia32/ffmpeg.exe
+    to: ffmpeg/ffmpeg.exe
+  - from: licenses/GPL-3.0.txt
+    to: licenses/GPL-3.0.txt
+  - from: THIRD-PARTY-NOTICES.md
+    to: licenses/THIRD-PARTY-NOTICES.md
+win:
+  icon: assets/icon.ico
+  target:
+    - target: portable
+      arch:
+        - ia32
+  requestedExecutionLevel: asInvoker
+  signAndEditExecutable: false
+  verifyUpdateCodeSignature: false
+asar: true
+asarUnpack:
+  - node_modules/@ffmpeg-installer/win32-ia32/ffmpeg.exe
+npmRebuild: false

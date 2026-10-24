@@ -1,0 +1,17 @@
+{
+  "name": "audio-visualizer-studio-desktop",
+  "version": "1.0.0",
+  "private": true,
+  "packageManager": "pnpm@9.12.0",
+  "description": "Offline audio visualizer desktop application for Windows 7 x86",
+  "main": "main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "pack:win32": "electron-builder --win portable --ia32 --config electron-builder.yml"
+  },
+  "devDependencies": {
+    "@ffmpeg-installer/win32-ia32": "4.1.0",
+    "electron": "22.3.27",
+    "electron-builder": "26.18.0"
+  }
+}
