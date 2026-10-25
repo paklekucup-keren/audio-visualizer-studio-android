@@ -6,6 +6,7 @@
 - [x] Program harus tetap berfungsi untuk fitur inti tanpa koneksi internet; host Android membatasi navigasi ke aset app dan tidak meminta izin storage luas.
 - [x] Siapkan profil build internal yang menghasilkan APK (`eas.json`, `preview.android.buildType: apk`) untuk build Dashboard setelah checkpoint source.
 - [x] Bangun dan serahkan file APK nyata melalui GitHub Actions; APK debug-signed sudah diterbitkan sebagai release `android-v1.0.0` dan dapat dipasang untuk sideload/uji.
+- [x] Sediakan arsip ZIP yang dapat diunduh lalu diekstrak di HP, berisi APK dan petunjuk pemasangan; setelah ekstraksi, ketuk APK (tidak mengekstrak isi APK).
 - [ ] Verifikasi APK pada perangkat Android 7.1.2 RAM 3 GB untuk instalasi, penggunaan offline, pemilihan audio, ekspor video/share sheet, dan kelancaran.
 
 ## Program desktop offline Windows 7 32-bit
