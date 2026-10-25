@@ -38,5 +38,5 @@
 - [x] Tampilan UI dibuat menarik, profesional, dan mencakup panel efek, lirik, pemutar, proyek, performa, serta ekspor.
 - [ ] Bandingkan langsung jumlah/variasi dengan contoh yang dimaksud pengguna; contoh tersebut belum dilampirkan. Implementasi saat ini menyediakan 9 variasi EQ dan 12 skin partikel.
 - [ ] Pastikan kelancaran di HP Android 7.1.2 RAM 3 dan PC Windows 7 32-bit RAM 3 melalui pengujian langsung perangkat; mode hemat telah tersedia, tetapi belum diuji pada perangkat target.
-- [ ] Buat repository GitHub private berisi source aplikasi Android dan Workflow GitHub Actions yang membangun APK installable; terbitkan APK pada GitHub Releases agar dapat diunduh pengguna. Repository utama Mobile tetap Manus-managed.
+- [ ] Buat repository GitHub private berisi source aplikasi Android dan Workflow GitHub Actions yang membangun APK installable; terbitkan APK pada GitHub Releases agar dapat diunduh pengguna. Repository utama Mobile tetap Manus-managed. Source sekarang sudah ada di `paklekucup-keren/audio-visualizer-studio-android` branch `main`; build run pertama gagal pada setup cache Gradle sebelum kompilasi, jadi workflow diperbaiki dan APK masih menunggu build sukses.
 - [ ] Setelah APK dibangun dan hasil implementasi final siap, beritahu pengguna melalui percakapan ini serta jelaskan hasil pengujian/perangkat fisik yang masih diperlukan.
