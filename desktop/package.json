@@ -4,6 +4,12 @@
   "private": true,
   "packageManager": "pnpm@9.12.0",
   "description": "Offline audio visualizer desktop application for Windows 7 x86",
+  "author": "paklekucup-keren",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/paklekucup-keren/audio-visualizer-studio-android.git",
+    "directory": "desktop"
+  },
   "main": "main.cjs",
   "scripts": {
     "start": "electron .",
