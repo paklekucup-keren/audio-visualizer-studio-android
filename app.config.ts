@@ -59,10 +59,11 @@ const publicRuntime = {
   apiBaseUrl: process.env.EXPO_PUBLIC_API_BASE_URL ?? "",
 };
 
-const config: ExpoConfig = {
+const config: ExpoConfig & { logoUrl: string } = {
   name: env.appName,
   slug: env.appSlug,
-  version: "1.0.1",
+  logoUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519664039560012/yrDZbFlXtKzWJhQt.png",
+  version: "1.0.2",
   extra: publicRuntime,
   orientation: "portrait",
   icon: "./assets/images/icon.png",
@@ -84,7 +85,7 @@ const config: ExpoConfig = {
     },
     predictiveBackGestureEnabled: false,
     package: env.androidPackage,
-    versionCode: 2,
+    versionCode: 3,
     permissions: ["POST_NOTIFICATIONS"],
     intentFilters: [
       {

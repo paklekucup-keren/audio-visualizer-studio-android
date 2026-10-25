@@ -7,7 +7,7 @@
 - [x] Siapkan profil build internal yang menghasilkan APK (`eas.json`, `preview.android.buildType: apk`) untuk build Dashboard setelah checkpoint source.
 - [x] Diagnosis gejala splash: workflow sebelumnya memakai `assembleDebug`; konfigurasi React Native menyatakan varian debug melewatkan bundling JavaScript/aset, sehingga APK tanpa Metro tidak dapat masuk ke UI.
 - [x] Sediakan arsip ZIP v1.0.0 yang dapat diunduh lalu diekstrak di HP, berisi APK dan petunjuk pemasangan; setelah ekstraksi, ketuk APK (tidak mengekstrak isi APK). ZIP itu berisi build `assembleDebug` yang teridentifikasi sebagai penyebab macet dan harus digantikan.
-- [ ] Terbitkan pembaruan APK standalone Android v1.0.1 (`versionCode: 2`) dari Gradle `:app:assembleRelease` agar bundle JavaScript tertanam dan aplikasi dapat mulai offline tanpa Metro; unggah APK serta ZIP berisi APK dan petunjuk ke GitHub Release.
+- [x] Terbitkan pembaruan APK standalone Android v1.0.1 (`versionCode: 2`) dari Gradle `:app:assembleRelease` agar bundle JavaScript tertanam dan aplikasi dapat mulai offline tanpa Metro; unggah APK serta ZIP berisi APK dan petunjuk ke GitHub Release. Run `40195574929` sukses; APK berisi `assets/index.android.bundle`, ZIP valid dan memuat APK identik serta `PETUNJUK.txt`.
 - [ ] Verifikasi APK pada perangkat Android 7.1.2 RAM 3 GB untuk instalasi, penggunaan offline, pemilihan audio, ekspor video/share sheet, dan kelancaran.
 
 ## Program desktop offline Windows 7 32-bit
@@ -21,8 +21,16 @@
 - [x] Preview audio dan visual bergerak dengan pilihan performa Hemat/Seimbang/Detail.
 
 ## Particle System Visualizer dan skin
-- [x] Sediakan Particle System Visualizer dan 12 skin/varian: aurora, nebula, rain, orbit, firefly, comet, dust, sparks, snow, rings, embers, off.
+- [x] Sediakan Particle System Visualizer dan 13 skin/varian: aurora, nebula, rain, orbit, firefly, comet, dust, sparks, snow, rings, embers, bokeh, off.
 - [x] Sediakan pengaturan warna, ukuran, jumlah/intensitas partikel, serta pembatas mode hemat.
+
+## Gaya video referensi, overlay dan gambar latar
+- [x] Analisis video contoh dan sediakan preset “Lengkungan Kembar” dengan dua lengkungan simetris yang berdenyut mengikuti audio, komposisi fokus tengah, latar gelap, dan bokeh kecil bergerak pelan; overlay judul lagu/subteks, waktu berjalan/sisa, dan progress bar dapat diubah atau dimatikan. Judul diisi otomatis dari nama file audio lokal dan dapat diedit.
+- [x] Tambahkan kontrol kecepatan animasi serta skala/ukuran visualizer; perubahan kecepatan mengatur gerak lengkungan, EQ, dan partikel.
+- [x] Sediakan Particle Effect Overlay yang bisa diaktif/nonaktifkan, mengatur opacity, dan ditampilkan di atas latar.
+- [x] Tambahkan EQ Effect Overlay dengan minimal tiga warna terpisah untuk low 40–250 Hz, medium 250–2.000 Hz, dan high 2.000–10.000 Hz; tiap warna menggerakkan layer frekuensi yang sesuai dan warnanya bisa diubah.
+- [x] Sediakan input gambar lokal sebagai background dengan pilihan cover/contain dan penggelap latar; gambar diproses di perangkat, dibatasi 12 MB dan diperkecil sekali hingga sisi maksimum 1.600 px, serta ikut tersimpan saat proyek disimpan.
+- [x] Buat fitur tetap ringan pada perangkat lama: pratinjau mode Hemat membatasi frame ke 18 fps/18 partikel dan resolusi pixel 1×, gambar diperkecil satu kali sebelum dipakai, serta tidak ada aset yang perlu diunduh dari jaringan. Uji kode dan pratinjau selesai; kelancaran pada perangkat fisik masih perlu diuji.
 
 ## Teks dan sinkronisasi lirik
 - [x] Untuk teks lirik, bisa edit jenis huruf: font sistem yang dibundel dan file lokal TTF/OTF/WOFF/WOFF2; font unggahan bersifat sesi aktif dan tidak tertanam di proyek.
@@ -40,5 +48,5 @@
 - [x] Tampilan UI dibuat menarik, profesional, dan mencakup panel efek, lirik, pemutar, proyek, performa, serta ekspor.
 - [ ] Bandingkan langsung jumlah/variasi dengan contoh yang dimaksud pengguna; contoh tersebut belum dilampirkan. Implementasi saat ini menyediakan 9 variasi EQ dan 12 skin partikel.
 - [ ] Pastikan kelancaran di HP Android 7.1.2 RAM 3 dan PC Windows 7 32-bit RAM 3 melalui pengujian langsung perangkat; mode hemat telah tersedia, tetapi belum diuji pada perangkat target.
-- [x] Buat repository GitHub private berisi source aplikasi Android dan Workflow GitHub Actions yang membangun APK installable; terbitkan APK pada GitHub Releases agar dapat diunduh pengguna. Repository utama Mobile tetap Manus-managed. Source ada di `paklekucup-keren/audio-visualizer-studio-android` branch `main`; workflow membangun APK dengan sukses pada run `40190463074`, dan release `android-v1.0.0` berisi `app-debug.apk`.
+- [x] Buat repository GitHub private berisi source aplikasi Android dan Workflow GitHub Actions yang membangun APK installable; terbitkan APK pada GitHub Releases agar dapat diunduh pengguna. Repository utama Mobile tetap Manus-managed. Source ada di `paklekucup-keren/audio-visualizer-studio-android` branch `main`; workflow standalone sukses pada run `40195574929`, dan release `android-v1.0.1` berisi APK serta ZIP.
 - [x] Setelah APK dibangun dan hasil implementasi final siap, beritahu pengguna melalui percakapan ini serta jelaskan hasil pengujian/perangkat fisik yang masih diperlukan.

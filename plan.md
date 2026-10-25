@@ -10,7 +10,11 @@ Desktop memakai Electron 22.3.27 ia32 dan menghasilkan executable portable. Elec
 
 ## Ruang lingkup fitur
 
-Visualizer menyediakan sembilan bentuk EQ (bars, mirror, wave, radial, spectrum, orbit, dots, pulse, ribbon) dan dua belas skin partikel (aurora, nebula, rain, orbit, firefly, comet, dust, sparks, snow, rings, embers, off). Warna utama/kedua, ukuran elemen, intensitas, jumlah partikel, dan preset performa low/balanced/high dapat diatur; mode Hemat menjadi default awal untuk target lama.
+Visualizer menyediakan sembilan bentuk EQ (bars, mirror, wave, radial, spectrum, orbit, dots, pulse, ribbon) dan tiga belas skin partikel, termasuk Bokeh serta preset referensi “Lengkungan Kembar”. Preset baru meniru dua lengkungan simetris yang berdenyut di atas fokus tengah dan partikel bokeh perlahan pada latar gelap. Kecepatan animasi dan skala EQ dapat diatur.
+
+Particle Effect Overlay dapat diaktif/nonaktifkan dan intensitas opacity-nya diatur. EQ Effect Overlay memakai tiga band dari frekuensi audio: low 40–250 Hz, mid 250–2.000 Hz, high 2.000–10.000 Hz, masing-masing dengan pemilih warna terpisah (default merah, amber, cyan). Gambar latar dapat dipilih dari perangkat, di-crop cover/contain, digelapkan, diperkecil sekali ke sisi maksimum 1.600 px dan disimpan di proyek lokal; tidak diunggah ke layanan.
+
+Mode video referensi menambahkan overlay opsional untuk judul lagu, subteks, waktu berjalan/sisa, dan progress bar pada kanvas ekspor; judul default diambil dari nama file dan dapat diedit. Overlay dapat dimatikan agar tidak bertabrakan dengan lirik.
 
 Pemutar memilih audio lokal, membaca metadata/durasi, menampilkan playhead dan preview reaktif. Studio lirik menerima teks per baris, timestamp yang bisa diedit, font sistem dan font TTF/OTF/WOFF/WOFF2 lokal, ukuran, fill, posisi, dan stroke. Sinkronisasi otomatis memakai analisis onset/envelope audio di perangkat untuk file sampai 20 MB dan durasi lima menit agar decoding PCM tidak menghabiskan RAM berlebih. Untuk trek di atas batas atau saat analisis waveform tidak tersedia, cue dibagi menurut durasi dan hasilnya bisa diperbaiki manual. Ini bukan pengenalan kata/vokal.
 
@@ -18,7 +22,7 @@ Ekspor menawarkan komposisi 16:9 YouTube, 9:16 Shorts/Reels, dan 1:1, dengan res
 
 ## Pendekatan teknis dan build
 
-`visualizer/index.html` mengandung UI, Web Audio, Canvas, lirik, dan perekaman. HTML disalin menjadi `lib/visualizer-html.ts` untuk WebView Android dan pratinjau web. `lib/native-file-transfer.ts` menangani penulisan file lokal bertahap, validasi pesan, pencegahan overwrite dan berbagi file melalui Expo FileSystem/Sharing.
+`visualizer/index.html` mengandung UI, Web Audio, Canvas, lirik, gambar latar cache, layer partikel, EQ tiga-band, dan perekaman. Latar dikonversi ke JPEG lokal berdimensi terbatas ketika dipilih agar dekode berat tidak berulang pada tiap frame. HTML disalin menjadi `lib/visualizer-html.ts` untuk WebView Android dan pratinjau web. `lib/native-file-transfer.ts` menangani penulisan file lokal bertahap, validasi pesan, pencegahan overwrite dan berbagi file melalui Expo FileSystem/Sharing.
 
 `desktop/main.cjs` mengelola dialog file, IPC ekspor chunk, mux/encode FFmpeg dan salinan master. `desktop/preload.cjs` memberi renderer API IPC terbatas; handler mengikat IPC ke frame lokal yang diizinkan. Navigasi di Android dan desktop dibatasi pada aset aplikasi; bridge Android memvalidasi URL, skema pesan, nama file, MIME dan ukuran chunk. Desktop memakai staging output agar kegagalan MP4 tidak menghapus hasil lama. `desktop/electron-builder.yml` menyertakan visualizer, ikon, dan encoder offline. Request HTTP/WS diblokir.
 
@@ -41,7 +45,7 @@ Tiga arah: (0,071) studio audio gelap dengan aksen cyan; (0,043) panel editorial
 
 **Gerakan desain:** mixing-console kontemporer. **Prinsip inti:** kontrol utama mudah ditemukan; preview menjadi fokus; detail lanjutan tertata dalam panel tab; animasi ringan mengikuti preset daya. **Warna:** arang memberi kontras pada gelombang; cyan menandai audio aktif; biru mendukung kontrol sekunder. **Tata letak:** desktop memisahkan kanvas preview dan rail kontrol; ponsel menyusun preview, transport, lalu panel tab vertikal. **Motif khas:** garis spektrum, indikator playhead/waktu, dan halo warna hemat saat trek berjalan.
 
-**Interaksi dan animasi:** kontrol merespons langsung; transisi panel singkat; preset hemat menekan frame rate, glow, dan jumlah partikel. **Tipografi:** Arial/Segoe UI dan fallback sistem; timestamp monospace; font lirik bisa dipilih/upload lokal. **Esensi merek:** studio visualizer untuk kreator yang menyusun visual musik dari ponsel atau PC; fokus, ekspresif, praktis. **Nada:** jelas dan langsung; “Pilih trek. Bentuk visualnya.” dan “Atur penanda lirik agar pas dengan musik.” **Ikon:** simbol EQ tanpa teks kecil. **Warna khas:** cyan elektrik di atas arang pekat.
+**Interaksi dan animasi:** kontrol merespons langsung; transisi panel singkat; preset hemat menekan resolusi preview, frame rate, glow, dan jumlah partikel. Referensi video memberi preset gelap berkomposisi tengah, dua lengkungan audio simetris, serta bokeh halus; overlay tiga band low/mid/high memberi aksen warna yang dapat diubah tanpa menghilangkan bentuk referensi. Gambar latar lokal diberi penggelap agar lirik tetap terbaca. **Tipografi:** Arial/Segoe UI dan fallback sistem; timestamp monospace; font lirik bisa dipilih/upload lokal. **Esensi merek:** studio visualizer untuk kreator yang menyusun visual musik dari ponsel atau PC; fokus, ekspresif, praktis. **Nada:** jelas dan langsung; “Pilih trek. Bentuk visualnya.” dan “Atur penanda lirik agar pas dengan musik.” **Ikon:** simbol EQ tanpa teks kecil. **Warna khas:** cyan elektrik di atas arang pekat.
 
 ## Rujukan teknis
 
