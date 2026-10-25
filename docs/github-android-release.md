@@ -10,6 +10,7 @@ Repository GitHub private untuk source Android: [paklekucup-keren/audio-visualiz
 - Arsip unduh-ekstrak: [Audio-Visualizer-Studio-Android-v1.0.3.zip](https://github.com/paklekucup-keren/audio-visualizer-studio-android/releases/download/android-v1.0.3/Audio-Visualizer-Studio-Android-v1.0.3.zip)
 - Build: GitHub Actions run [`40209720636`](https://github.com/paklekucup-keren/audio-visualizer-studio-android/actions/runs/40209720636), sukses dalam 28 menit 3 detik melalui `:app:assembleRelease`.
 - Pemeriksaan artefak: APK memuat `assets/index.android.bundle` (3.876.404 byte); ZIP lolos pemeriksaan integritas dan memuat APK identik byte demi byte serta `PETUNJUK.txt`.
+- ABI APK diperiksa langsung dan mencakup `armeabi-v7a` (32-bit) serta `arm64-v8a` (64-bit).
 - Ukuran APK: 63.746.366 byte; SHA-256 `a2ce8884563ab7afedaaf118775b11b946810c78278de03c917c4ade6eb07a35`.
 - Ukuran ZIP: 63.747.049 byte; SHA-256 `2dbc58a889484f3f5d5b9e18b69159d0af6664f793a7679fad33ed2e090999b1`.
 - UI mobile diperiksa pada Preview ukuran 390×844 dan 320×720: tombol Simpan/Buka proyek tetap terlihat, dan baris pemilih audio tidak terlipat pada layar kecil.
