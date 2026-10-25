@@ -2,7 +2,23 @@
 
 Repository GitHub private untuk source Android: [paklekucup-keren/audio-visualizer-studio-android](https://github.com/paklekucup-keren/audio-visualizer-studio-android). Repository utama Mobile tetap Manus-managed; GitHub menjadi mirror source dan tempat unduh rilis Android.
 
-## Rilis terbaru: v1.0.3 standalone
+## Rilis terbaru: v1.0.4 standalone
+
+- Tag: `android-v1.0.4`
+- Release: [Audio Visualizer Studio Android v1.0.4](https://github.com/paklekucup-keren/audio-visualizer-studio-android/releases/tag/android-v1.0.4)
+- APK langsung: [Audio-Visualizer-Studio-v1.0.4.apk](https://github.com/paklekucup-keren/audio-visualizer-studio-android/releases/download/android-v1.0.4/Audio-Visualizer-Studio-v1.0.4.apk)
+- Arsip unduh-ekstrak: [Audio-Visualizer-Studio-Android-v1.0.4.zip](https://github.com/paklekucup-keren/audio-visualizer-studio-android/releases/download/android-v1.0.4/Audio-Visualizer-Studio-Android-v1.0.4.zip)
+- Build: GitHub Actions run [`40215326444`](https://github.com/paklekucup-keren/audio-visualizer-studio-android/actions/runs/40215326444), sukses melalui `:app:assembleRelease`.
+- Pemeriksaan artefak: APK memuat `assets/index.android.bundle` (3.886.096 byte); ZIP lolos pemeriksaan integritas dan memuat APK identik byte demi byte serta `PETUNJUK.txt`.
+- ABI APK diperiksa langsung dan mencakup `armeabi-v7a` (32-bit) serta `arm64-v8a` (64-bit).
+- Ukuran APK: 63.756.058 byte; SHA-256 `283077ac16d99345753fd511093053081c7bb907e2933778fe0aeabbc490a28d`.
+- Ukuran ZIP: 63.756.741 byte; SHA-256 `529deef84ee21f4750b958725d08bbb5cc0fe64835158ee5c2e4abf5ebabb18a`.
+- Matriks playback Chromium (WAV, MP3, AudioContext tidak tersedia/suspended, kegagalan destination, dan codec rusak) lolos. Pemutaran pada Android 7.1.2/RAM 3 GB belum diuji langsung.
+- Rilis merupakan APK prerelease/sideload, bukan APK produksi Play Store. Jika Android menolak pembaruan karena konflik tanda tangan/paket, instalasi ulang mungkin memerlukan penghapusan aplikasi lama; penghapusan dapat menghapus data lokal.
+
+Untuk memasang v1.0.4: unduh APK langsung atau unduh ZIP lalu ekstrak dengan Files/Pengelola File; ketuk `Audio-Visualizer-Studio-v1.0.4.apk` (jangan mengekstrak isi APK). Izinkan instalasi dari sumber tersebut jika Android memintanya. Coba pasang sebagai pembaruan; jika Android menolak karena konflik tanda tangan/paket, hapus aplikasi lama lalu pasang v1.0.4. Menghapus aplikasi dapat menghapus data lokal. Repository private sehingga perlu login ke akun GitHub yang memiliki akses.
+
+## Rilis sebelumnya: v1.0.3 standalone
 
 - Tag: `android-v1.0.3`
 - Release: [Audio Visualizer Studio Android v1.0.3](https://github.com/paklekucup-keren/audio-visualizer-studio-android/releases/tag/android-v1.0.3)
