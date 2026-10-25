@@ -5,7 +5,7 @@
 - [x] Targetkan HP Android versi 7.1.2 melalui `minSdkVersion: 24`, ABI ARM 32/64-bit, WebView aset lokal, penyimpanan bertahap, dan mode Hemat default untuk 18 fps/18 partikel.
 - [x] Program harus tetap berfungsi untuk fitur inti tanpa koneksi internet; host Android membatasi navigasi ke aset app dan tidak meminta izin storage luas.
 - [x] Siapkan profil build internal yang menghasilkan APK (`eas.json`, `preview.android.buildType: apk`) untuk build Dashboard setelah checkpoint source.
-- [ ] Bangun dan serahkan file APK nyata melalui Dashboard; profil konfigurasi saja bukan artefak APK.
+- [x] Bangun dan serahkan file APK nyata melalui GitHub Actions; APK debug-signed sudah diterbitkan sebagai release `android-v1.0.0` dan dapat dipasang untuk sideload/uji.
 - [ ] Verifikasi APK pada perangkat Android 7.1.2 RAM 3 GB untuk instalasi, penggunaan offline, pemilihan audio, ekspor video/share sheet, dan kelancaran.
 
 ## Program desktop offline Windows 7 32-bit
@@ -38,5 +38,5 @@
 - [x] Tampilan UI dibuat menarik, profesional, dan mencakup panel efek, lirik, pemutar, proyek, performa, serta ekspor.
 - [ ] Bandingkan langsung jumlah/variasi dengan contoh yang dimaksud pengguna; contoh tersebut belum dilampirkan. Implementasi saat ini menyediakan 9 variasi EQ dan 12 skin partikel.
 - [ ] Pastikan kelancaran di HP Android 7.1.2 RAM 3 dan PC Windows 7 32-bit RAM 3 melalui pengujian langsung perangkat; mode hemat telah tersedia, tetapi belum diuji pada perangkat target.
-- [ ] Buat repository GitHub private berisi source aplikasi Android dan Workflow GitHub Actions yang membangun APK installable; terbitkan APK pada GitHub Releases agar dapat diunduh pengguna. Repository utama Mobile tetap Manus-managed. Source sekarang sudah ada di `paklekucup-keren/audio-visualizer-studio-android` branch `main`; build run pertama gagal pada setup cache Gradle sebelum kompilasi, jadi workflow diperbaiki dan APK masih menunggu build sukses.
-- [ ] Setelah APK dibangun dan hasil implementasi final siap, beritahu pengguna melalui percakapan ini serta jelaskan hasil pengujian/perangkat fisik yang masih diperlukan.
+- [x] Buat repository GitHub private berisi source aplikasi Android dan Workflow GitHub Actions yang membangun APK installable; terbitkan APK pada GitHub Releases agar dapat diunduh pengguna. Repository utama Mobile tetap Manus-managed. Source ada di `paklekucup-keren/audio-visualizer-studio-android` branch `main`; workflow membangun APK dengan sukses pada run `40190463074`, dan release `android-v1.0.0` berisi `app-debug.apk`.
+- [x] Setelah APK dibangun dan hasil implementasi final siap, beritahu pengguna melalui percakapan ini serta jelaskan hasil pengujian/perangkat fisik yang masih diperlukan.

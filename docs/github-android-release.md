@@ -1,9 +1,17 @@
 # Android source dan APK di GitHub
 
-Repository GitHub yang direncanakan adalah mirror privat untuk source dan artefak Android. Repository Manus tetap menjadi sumber kanonis proyek Mobile.
+Repository GitHub private untuk source Android: [paklekucup-keren/audio-visualizer-studio-android](https://github.com/paklekucup-keren/audio-visualizer-studio-android). Repository utama Mobile tetap Manus-managed; GitHub menjadi mirror source dan tempat unduh rilis Android.
 
-Workflow `.github/workflows/android-apk.yml` membuat APK Android debug-signed yang dapat dipasang untuk uji perangkat. Workflow membangkitkan project Android native dari konfigurasi Expo, membangun APK secara offline setelah dependency tersedia, dan mengunggahnya sebagai artifact selama 30 hari. Karena APK menggunakan debug signing, berkas ini ditujukan untuk pengujian/pemasangan manual, bukan untuk publikasi Play Store.
+Workflow `.github/workflows/android-apk.yml` membangun APK debug-signed yang dapat dipasang untuk uji perangkat. Workflow meng-generate project Android native dari Expo dan mengunggah hasil ke GitHub Actions Artifacts. Run sukses pertama: [GitHub Actions run #2](https://github.com/paklekucup-keren/audio-visualizer-studio-android/actions/runs/40190463074) pada commit `a1b54d7e82791ba399a6ce360c3b495bafadcd93`.
 
-Untuk build uji dari GitHub Actions, jalankan **Android APK → Run workflow**. Unduh `app-debug.apk` dari bagian Artifacts pada hasil run. Untuk menyimpan versi di GitHub Releases, push tag dengan pola `android-v*` (contoh `android-v1.0.0`); workflow akan membuat prerelease dan melampirkan APK.
+## Rilis saat ini
 
-APK belum dianggap tersedia sampai sebuah workflow selesai sukses dan artifact/release benar-benar muncul. Tidak ada token atau keystore yang disimpan di source.
+- Tag: `android-v1.0.0`
+- Release: [Audio Visualizer Studio Android v1.0.0](https://github.com/paklekucup-keren/audio-visualizer-studio-android/releases/tag/android-v1.0.0)
+- Berkas: `app-debug.apk`, sekitar 120 MiB (124,840,200 byte)
+- SHA-256: `be55f9f2e2bc1542f274240075d3a97937dac3fb6a353a9ce9bf3363a7ba2ab2`
+- Status: debug-signed prerelease untuk sideload/uji, bukan signing produksi Play Store.
+
+Untuk memasang pada Android 7.1+, unduh `app-debug.apk` dari aset release. Jika Android meminta izin instalasi dari sumber tersebut, izinkan untuk browser atau aplikasi Files yang dipakai, lalu jalankan APK untuk memasang. Repository bersifat private; buka dengan akun GitHub yang mempunyai akses ke repo.
+
+Workflow dapat dijalankan manual dari tab **Actions → Android APK → Run workflow**. Untuk rilis berikutnya, push tag dengan pola `android-v*`; workflow akan membangun APK dan melampirkannya pada GitHub prerelease. Instalasi dan kelancaran pada HP target tetap perlu diverifikasi langsung di perangkat pengguna.
