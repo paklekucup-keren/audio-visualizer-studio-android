@@ -33,6 +33,7 @@
       <div class="transport">
         <div class="track-row"><button id="playBtn" class="play-btn" aria-label="Putar audio">▶</button><div class="track-meta"><div id="trackName" class="track-title">Belum ada trek</div><div id="trackInfo" class="track-sub">Pilih MP3, WAV, M4A, atau format audio lain yang didukung perangkat</div></div><span id="currentTime" class="time">00:00</span><div class="transport-actions"><label for="audioInput" class="btn btn-primary btn-small file-action">＋ <span>Pilih audio</span></label><input id="audioInput" class="select-file" type="file" accept="audio/*,.mp3,.wav,.m4a,.aac,.ogg,.flac"><button id="originalBtn" class="btn btn-small" title="Simpan file audio asli">Master</button></div></div>
         <input id="seek" class="seek" type="range" min="0" max="1000" value="0" aria-label="Posisi audio"><div class="track-row" style="justify-content:space-between"><span id="duration" class="time">00:00</span><div><span class="small-label">Volume </span><input id="volume" class="volume" type="range" min="0" max="1" step="0.01" value="0.85"></div></div>
+        <div id="playbackStatus" class="status" role="status" aria-live="polite">Pilih audio lalu tekan Putar.</div>
       </div>
       <div class="bottom-note"><span>Proyek diproses lokal di perangkat ini.</span><span id="engineNote">Mode perangkat: hemat · 18 fps preview</span></div>
     </section>
@@ -136,13 +137,94 @@
   function drawLyricsCanvas(w,h){var active=-1;for(var i=0;i<state.lyrics.length;i++)if(audio.currentTime>=Number(state.lyrics[i].time||0))active=i;if(active<0||audio.paused)return;var text=state.lyrics[active].text;if(!text)return;ctx.save();ctx.fillStyle=state.lyricColor;ctx.textAlign='center';ctx.textBaseline='middle';ctx.font='700 '+state.lyricSize+'px '+state.font;ctx.shadowColor='#000000';ctx.shadowBlur=state.stroke?10:5;ctx.shadowOffsetY=2;var y=state.lyricPosition==='top'?h*.17:(state.lyricPosition==='center'?h*.5:h*.84);ctx.fillText(text,w/2,y,w*.84);ctx.restore();}
   var lastDraw=0;
   function draw(now){var limit=1000/(frameRates[state.power]||24);if(now-lastDraw<limit){window.requestAnimationFrame(draw);return;}var previous=lastDraw,delta=previous?clamp((now-previous)/16.667,0,2):1;lastDraw=now;fitCanvas();var r=frame.getBoundingClientRect(),w=r.width,h=r.height;ctx.clearRect(0,0,w,h);drawBackground(w,h);var vals=getAudioValues(),animatedNow=now*state.speed;drawParticles(w,h,vals,animatedNow,delta);drawEQ(w,h,vals,animatedNow);drawEQOverlay(w,h,animatedNow);drawMediaOverlay(w,h);if(state.exporting)drawLyricsCanvas(w,h);window.requestAnimationFrame(draw);}
-  function setupAudio(){if(state.audioContext)return;var AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;try{state.audioContext=new AC();state.analyser=state.audioContext.createAnalyser();state.analyser.fftSize=1024;state.analyser.smoothingTimeConstant=.78;state.frequency=new Uint8Array(state.analyser.frequencyBinCount);state.wave=new Uint8Array(state.analyser.fftSize);state.source=state.audioContext.createMediaElementSource(audio);state.destination=state.audioContext.createMediaStreamDestination();state.source.connect(state.analyser);state.analyser.connect(state.audioContext.destination);state.source.connect(state.destination);}catch(e){setStatus($('exportStatus'),'Audio analyser tidak tersedia pada runtime ini. Audio masih dapat diputar.','error');}}
-  function loadTrack(file){if(!file)return;state.currentFile=file;state.audioPath=window.AudioVizDesktop&&window.AudioVizDesktop.getFilePath?window.AudioVizDesktop.getFilePath(file):null;var old=audio.src;if(old&&old.indexOf('blob:')===0)URL.revokeObjectURL(old);audio.src=URL.createObjectURL(file);audio.load();$('trackName').textContent=file.name;var defaultTitle=file.name.replace(/\.[^.]+$/,'').replace(/[_-]+/g,' ').trim();if(!$('mediaTitle').value||$('mediaTitle').dataset.auto==='true'){$('mediaTitle').value=defaultTitle;$('mediaTitle').dataset.auto='true';state.mediaTitle=defaultTitle;}$('trackInfo').textContent=(file.type||'audio lokal')+' · '+(file.size/1048576).toFixed(1)+' MB · lokal';$('emptyState').classList.add('hide');$('livePill').textContent='AUDIO LOADED';setStatus($('syncStatus'),'Audio lokal siap dianalisis.','ok');}
-  $('audioInput').addEventListener('change',function(e){loadTrack(e.target.files&&e.target.files[0]);});
-  audio.addEventListener('loadedmetadata',function(){state.duration=audio.duration||0;$('duration').textContent=fmt(state.duration);$('trackInfo').textContent=($('trackInfo').textContent.split(' · ')[0]||'audio lokal')+' · '+fmt(state.duration)+' · lokal';});
-  audio.addEventListener('timeupdate',function(){if(state.duration){$('seek').value=Math.floor(audio.currentTime/state.duration*1000);$('currentTime').textContent=fmt(audio.currentTime);}updateLyric();});
-  audio.addEventListener('play',function(){$('playBtn').textContent='Ⅱ';$('livePill').textContent='PLAYING';});audio.addEventListener('pause',function(){$('playBtn').textContent='▶';$('livePill').textContent='PAUSED';});
-  $('playBtn').addEventListener('click',function(){if(!state.currentFile){$('audioInput').click();return;}setupAudio();if(state.audioContext&&state.audioContext.state==='suspended')state.audioContext.resume();if(audio.paused){audio.play().catch(function(){setStatus($('exportStatus'),'Audio tidak dapat diputar. Pilih format file audio yang didukung perangkat.','error');});}else audio.pause();});
+  function setupAudio(){
+    if(state.audioContext)return state.audioContext;
+    var AC=window.AudioContext||window.webkitAudioContext;
+    if(!AC){setStatus($('playbackStatus'),'Analisis frekuensi tidak tersedia pada runtime ini; pemutaran audio tetap dicoba.','');return null;}
+    var audioContext=null,source=null,analyser=null,destination=null,frequency=null,wave=null,outputConnected=false;
+    try{
+      audioContext=new AC();
+      source=audioContext.createMediaElementSource(audio);
+      analyser=audioContext.createAnalyser();
+      analyser.fftSize=1024;
+      analyser.smoothingTimeConstant=.78;
+      frequency=new Uint8Array(analyser.frequencyBinCount);
+      wave=new Uint8Array(analyser.fftSize);
+      destination=audioContext.createMediaStreamDestination();
+      source.connect(analyser);
+      analyser.connect(audioContext.destination);
+      outputConnected=true;
+      source.connect(destination);
+      state.audioContext=audioContext;state.analyser=analyser;state.frequency=frequency;state.wave=wave;state.source=source;state.destination=destination;
+      return audioContext;
+    }catch(error){
+      if(source&&audioContext&&!outputConnected){try{source.connect(audioContext.destination);outputConnected=true;}catch(_){}}
+      state.audioContext=audioContext;state.source=source;state.analyser=analyser;state.frequency=frequency;state.wave=wave;state.destination=destination;
+      setStatus($('playbackStatus'),'Analisis frekuensi/ekspor tidak siap. Pemutar masih mencoba memutar audio secara langsung.','error');
+      return audioContext;
+    }
+  }
+  function loadTrack(file){
+    if(!file)return;
+    audio.pause();
+    state.duration=0;state.currentFile=file;state.audioPath=window.AudioVizDesktop&&window.AudioVizDesktop.getFilePath?window.AudioVizDesktop.getFilePath(file):null;
+    $('seek').value='0';$('currentTime').textContent='00:00';$('duration').textContent='00:00';
+    var old=audio.src,newUrl=URL.createObjectURL(file);
+    audio.src=newUrl;audio.load();
+    if(old&&old.indexOf('blob:')===0)setTimeout(function(){URL.revokeObjectURL(old);},0);
+    $('trackName').textContent=file.name;
+    var defaultTitle=file.name.replace(/\.[^.]+$/,'').replace(/[_-]+/g,' ').trim();
+    if(!$('mediaTitle').value||$('mediaTitle').dataset.auto==='true'){$('mediaTitle').value=defaultTitle;$('mediaTitle').dataset.auto='true';state.mediaTitle=defaultTitle;}
+    $('trackInfo').textContent=(file.type||'audio lokal')+' · '+(file.size/1048576).toFixed(1)+' MB · lokal';
+    $('emptyState').classList.add('hide');$('livePill').textContent='AUDIO LOADED';
+    setStatus($('playbackStatus'),'Memuat file audio dan durasi…','');
+    setStatus($('syncStatus'),'Audio lokal siap dianalisis.','ok');
+  }
+  $('audioInput').addEventListener('change',function(e){loadTrack(e.target.files&&e.target.files[0]);this.value='';});
+  function playbackErrorMessage(error){
+    var mediaError=audio.error,detail=error&&error.message?' ('+error.message+')':'';
+    if(mediaError){
+      if(mediaError.code===1)return 'Pemutaran dihentikan sebelum selesai. Pilih Putar untuk mencoba lagi.';
+      if(mediaError.code===2)return 'File audio tidak dapat dibaca. Pilih kembali file lokal lalu coba lagi.';
+      if(mediaError.code===3)return 'File ditemukan, tetapi encoding audio gagal didekode. Coba MP3 standar atau WAV PCM.';
+      if(mediaError.code===4)return 'Format/codec audio tidak didukung WebView perangkat ini. Coba MP3 standar atau WAV PCM.';
+    }
+    if(error&&error.name==='NotAllowedError')return 'Android menahan pemutaran otomatis. Ketuk Putar sekali lagi setelah file siap.';
+    return 'Audio gagal diputar. Coba MP3 standar atau WAV PCM.'+detail;
+  }
+  function updatePlayingStatus(){var contextState=state.audioContext&&state.audioContext.state;if(contextState==='suspended'||contextState==='interrupted'||contextState==='closed'){setStatus($('playbackStatus'),'Waktu berjalan '+fmt(audio.currentTime)+' / '+fmt(state.duration)+', tetapi AudioContext belum aktif. Jeda lalu tekan Putar lagi.','error');}else{setStatus($('playbackStatus'),'Audio berjalan · '+fmt(audio.currentTime)+' / '+fmt(state.duration)+'.','ok');}}
+  audio.addEventListener('loadedmetadata',function(){
+    state.duration=isFinite(audio.duration)?audio.duration:0;
+    $('duration').textContent=fmt(state.duration);
+    $('trackInfo').textContent=($('trackInfo').textContent.split(' · ')[0]||'audio lokal')+' · '+(state.duration?fmt(state.duration):'durasi tidak terbaca')+' · lokal';
+    if(!state.duration)setStatus($('playbackStatus'),'File terbuka, tetapi durasi tidak terbaca. Coba MP3 atau WAV PCM.','error');
+  });
+  audio.addEventListener('canplay',function(){if(audio.paused)setStatus($('playbackStatus'),'Audio siap · '+fmt(state.duration)+'. Tekan Putar.','ok');});
+  audio.addEventListener('waiting',function(){if(!audio.paused)setStatus($('playbackStatus'),'Audio sedang dimuat…','');});
+  audio.addEventListener('stalled',function(){if(!audio.paused)setStatus($('playbackStatus'),'Pembacaan audio terhenti sementara. Tunggu atau pilih ulang file.','');});
+  audio.addEventListener('error',function(){setStatus($('playbackStatus'),playbackErrorMessage(null),'error');$('playBtn').textContent='▶';$('playBtn').setAttribute('aria-label','Putar audio');$('livePill').textContent='AUDIO ERROR';});
+  audio.addEventListener('timeupdate',function(){if(state.duration){$('seek').value=Math.floor(audio.currentTime/state.duration*1000);$('currentTime').textContent=fmt(audio.currentTime);}updateLyric();if(!audio.paused)updatePlayingStatus();});
+  audio.addEventListener('play',function(){$('playBtn').textContent='Ⅱ';$('playBtn').setAttribute('aria-label','Jeda audio');$('livePill').textContent='PLAYING';});
+  audio.addEventListener('playing',updatePlayingStatus);
+  audio.addEventListener('pause',function(){$('playBtn').textContent='▶';$('playBtn').setAttribute('aria-label','Putar audio');if(!audio.ended){$('livePill').textContent='PAUSED';if(state.currentFile)setStatus($('playbackStatus'),'Audio dijeda · '+fmt(audio.currentTime)+'.','');}});
+  audio.addEventListener('ended',function(){$('playBtn').textContent='▶';$('playBtn').setAttribute('aria-label','Putar audio');$('livePill').textContent='SELESAI';setStatus($('playbackStatus'),'Audio selesai. Tekan Putar untuk mengulang.','ok');});
+  $('playBtn').addEventListener('click',function(){
+    if(!state.currentFile){$('audioInput').click();return;}
+    if(!audio.paused){audio.pause();return;}
+    var context=setupAudio(),resumePromise=Promise.resolve(null);
+    if(context&&context.state==='suspended'){
+      try{resumePromise=Promise.resolve(context.resume()).then(function(){return null;},function(error){return {error:error};});}
+      catch(error){resumePromise=Promise.resolve({error:error});}
+    }
+    var playPromise;
+    try{playPromise=audio.play();}
+    catch(error){setStatus($('playbackStatus'),playbackErrorMessage(error),'error');return;}
+    var started=playPromise&&typeof playPromise.then==='function'?Promise.resolve(playPromise):Promise.resolve();
+    started.then(function(){return resumePromise;}).then(function(resumeResult){
+      if(resumeResult&&resumeResult.error){setStatus($('playbackStatus'),'Audio mulai, tetapi AudioContext tidak aktif. Jeda lalu tekan Putar lagi; bila tetap senyap, laporkan pesan ini.','error');return;}
+      if(!audio.paused)setStatus($('playbackStatus'),'Audio berjalan · '+fmt(state.duration)+'.','ok');
+    }).catch(function(error){setStatus($('playbackStatus'),playbackErrorMessage(error),'error');});
+  });
   $('seek').addEventListener('input',function(){if(state.duration)audio.currentTime=(Number(this.value)/1000)*state.duration;});$('volume').addEventListener('input',function(){audio.volume=Number(this.value);});
   function selectPreset(group,key){var nodes=document.querySelectorAll('[data-'+group+']');for(var i=0;i<nodes.length;i++)nodes[i].classList.toggle('active',nodes[i].getAttribute('data-'+group)===key);}
   var eqNodes=document.querySelectorAll('[data-eq]');for(var i=0;i<eqNodes.length;i++)eqNodes[i].addEventListener('click',function(){state.eq=this.getAttribute('data-eq');selectPreset('eq',state.eq);});
