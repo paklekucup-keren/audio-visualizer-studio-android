@@ -1,4 +1,4 @@
-name: Android APK
+name: Android Standalone APK
 
 on:
   workflow_dispatch:
@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   build-apk:
-    name: Build installable Android APK
+    name: Build standalone Android APK
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     steps:
@@ -46,25 +46,46 @@ jobs:
           java-version: "17"
           cache: gradle
 
-      - name: Build installable debug-signed APK
+      - name: Build standalone release APK with bundled JavaScript
         working-directory: android
-        run: ./gradlew :app:assembleDebug --no-daemon --stacktrace
+        run: ./gradlew :app:assembleRelease --no-daemon --stacktrace
 
-      - name: Upload APK as a workflow artifact
+      - name: Package APK with phone installation instructions
+        run: |
+          mkdir -p dist
+          cp android/app/build/outputs/apk/release/app-release.apk dist/Audio-Visualizer-Studio-v1.0.1.apk
+          cat > dist/PETUNJUK.txt <<'EOF'
+          Audio Visualizer Studio Android v1.0.1
+
+          1. Ekstrak ZIP ini di HP Android menggunakan Files/Pengelola File.
+          2. Ketuk Audio-Visualizer-Studio-v1.0.1.apk untuk memasang.
+          3. Jika diminta, izinkan pemasangan untuk aplikasi Files/browser yang digunakan.
+          4. APK adalah sideload/uji debug-signed, bukan paket Play Store.
+          EOF
+          (cd dist && zip -0 ../Audio-Visualizer-Studio-Android-v1.0.1.zip Audio-Visualizer-Studio-v1.0.1.apk PETUNJUK.txt)
+
+      - name: Verify APK contains the packaged JavaScript bundle
+        run: unzip -l dist/Audio-Visualizer-Studio-v1.0.1.apk | grep -E 'assets/index.android.bundle|assets/.*bundle'
+
+      - name: Upload APK and ZIP as workflow artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: Audio-Visualizer-Studio-Android-${{ github.run_number }}
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          name: Audio-Visualizer-Studio-Android-${{ github.run_number }}-v1.0.1
+          path: |
+            dist/Audio-Visualizer-Studio-v1.0.1.apk
+            Audio-Visualizer-Studio-Android-v1.0.1.zip
           if-no-files-found: error
           retention-days: 30
 
-      - name: Publish tagged Android preview release
+      - name: Publish tagged Android standalone release
         if: startsWith(github.ref, 'refs/tags/android-v')
         uses: softprops/action-gh-release@v2
         with:
-          name: Audio Visualizer Studio Android ${{ github.ref_name }}
+          name: Audio Visualizer Studio Android 1.0.1
           tag_name: ${{ github.ref_name }}
           prerelease: true
           generate_release_notes: true
-          files: android/app/build/outputs/apk/debug/app-debug.apk
+          files: |
+            dist/Audio-Visualizer-Studio-v1.0.1.apk
+            Audio-Visualizer-Studio-Android-v1.0.1.zip
           fail_on_unmatched_files: true

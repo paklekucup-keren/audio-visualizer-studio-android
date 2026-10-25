@@ -5,8 +5,9 @@
 - [x] Targetkan HP Android versi 7.1.2 melalui `minSdkVersion: 24`, ABI ARM 32/64-bit, WebView aset lokal, penyimpanan bertahap, dan mode Hemat default untuk 18 fps/18 partikel.
 - [x] Program harus tetap berfungsi untuk fitur inti tanpa koneksi internet; host Android membatasi navigasi ke aset app dan tidak meminta izin storage luas.
 - [x] Siapkan profil build internal yang menghasilkan APK (`eas.json`, `preview.android.buildType: apk`) untuk build Dashboard setelah checkpoint source.
-- [x] Bangun dan serahkan file APK nyata melalui GitHub Actions; APK debug-signed sudah diterbitkan sebagai release `android-v1.0.0` dan dapat dipasang untuk sideload/uji.
-- [x] Sediakan arsip ZIP yang dapat diunduh lalu diekstrak di HP, berisi APK dan petunjuk pemasangan; setelah ekstraksi, ketuk APK (tidak mengekstrak isi APK).
+- [x] Diagnosis gejala splash: workflow sebelumnya memakai `assembleDebug`; konfigurasi React Native menyatakan varian debug melewatkan bundling JavaScript/aset, sehingga APK tanpa Metro tidak dapat masuk ke UI.
+- [x] Sediakan arsip ZIP v1.0.0 yang dapat diunduh lalu diekstrak di HP, berisi APK dan petunjuk pemasangan; setelah ekstraksi, ketuk APK (tidak mengekstrak isi APK). ZIP itu berisi build `assembleDebug` yang teridentifikasi sebagai penyebab macet dan harus digantikan.
+- [ ] Terbitkan pembaruan APK standalone Android v1.0.1 (`versionCode: 2`) dari Gradle `:app:assembleRelease` agar bundle JavaScript tertanam dan aplikasi dapat mulai offline tanpa Metro; unggah APK serta ZIP berisi APK dan petunjuk ke GitHub Release.
 - [ ] Verifikasi APK pada perangkat Android 7.1.2 RAM 3 GB untuk instalasi, penggunaan offline, pemilihan audio, ekspor video/share sheet, dan kelancaran.
 
 ## Program desktop offline Windows 7 32-bit
