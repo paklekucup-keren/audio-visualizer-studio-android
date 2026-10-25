@@ -8,6 +8,8 @@
 - [x] Diagnosis gejala splash: workflow sebelumnya memakai `assembleDebug`; konfigurasi React Native menyatakan varian debug melewatkan bundling JavaScript/aset, sehingga APK tanpa Metro tidak dapat masuk ke UI.
 - [x] Sediakan arsip ZIP v1.0.0 yang dapat diunduh lalu diekstrak di HP, berisi APK dan petunjuk pemasangan; setelah ekstraksi, ketuk APK (tidak mengekstrak isi APK). ZIP itu berisi build `assembleDebug` yang teridentifikasi sebagai penyebab macet dan harus digantikan.
 - [x] Terbitkan pembaruan APK standalone Android v1.0.1 (`versionCode: 2`) dari Gradle `:app:assembleRelease` agar bundle JavaScript tertanam dan aplikasi dapat mulai offline tanpa Metro; unggah APK serta ZIP berisi APK dan petunjuk ke GitHub Release. Run `40195574929` sukses; APK berisi `assets/index.android.bundle`, ZIP valid dan memuat APK identik serta `PETUNJUK.txt`.
+- [x] Terbitkan APK standalone v1.0.2 (`versionCode: 3`) dengan fitur visualizer dari video referensi; run `40206740511` sukses setelah 32 menit, APK berisi bundle JavaScript 3.875.000 byte, dan ZIP valid dengan APK identik serta `PETUNJUK.txt`.
+- [ ] Terbitkan v1.0.3 (`versionCode: 4`) setelah perbaikan responsif membuat tombol Simpan proyek/Buka proyek terlihat pada ponsel; screenshot Web Preview 390×844 sudah mengonfirmasi layout, tetapi APK pembaruan belum dibangun.
 - [ ] Verifikasi APK pada perangkat Android 7.1.2 RAM 3 GB untuk instalasi, penggunaan offline, pemilihan audio, ekspor video/share sheet, dan kelancaran.
 
 ## Program desktop offline Windows 7 32-bit
@@ -16,17 +18,18 @@
 - [x] Tidak memerlukan akun, layanan cloud, atau koneksi internet untuk mengimpor audio, mengedit visual/lirik, memutar audio, menyimpan proyek JSON, dan menyiapkan keluaran lokal. Saat membuka proyek lagi, pengguna memilih ulang audio lokal.
 
 ## EQ Visualizer dan pengaturan tampilan
-- [x] Sediakan EQ VISUALIZER dengan sembilan variasi: bars, mirror, wave, radial, spectrum, orbit, dots, pulse, ribbon.
+- [x] Sediakan EQ VISUALIZER dengan sepuluh pilihan: bars, mirror, wave, radial, spectrum, orbit, dots, pulse, ribbon, dan Lengkungan Kembar dari referensi video.
 - [x] Sediakan pengaturan warna utama/kedua dan ukuran visualizer/elemen.
 - [x] Preview audio dan visual bergerak dengan pilihan performa Hemat/Seimbang/Detail.
 
 ## Particle System Visualizer dan skin
-- [x] Sediakan Particle System Visualizer dan 13 skin/varian: aurora, nebula, rain, orbit, firefly, comet, dust, sparks, snow, rings, embers, bokeh, off.
+- [x] Sediakan Particle System Visualizer dengan 12 skin aktif: aurora, nebula, rain, orbit, firefly, comet, dust, sparks, snow, rings, embers, dan bokeh; opsi tambahan Off, total 13 pilihan UI.
 - [x] Sediakan pengaturan warna, ukuran, jumlah/intensitas partikel, serta pembatas mode hemat.
 
 ## Gaya video referensi, overlay dan gambar latar
 - [x] Analisis video contoh dan sediakan preset “Lengkungan Kembar” dengan dua lengkungan simetris yang berdenyut mengikuti audio, komposisi fokus tengah, latar gelap, dan bokeh kecil bergerak pelan; overlay judul lagu/subteks, waktu berjalan/sisa, dan progress bar dapat diubah atau dimatikan. Judul diisi otomatis dari nama file audio lokal dan dapat diedit.
 - [x] Tambahkan kontrol kecepatan animasi serta skala/ukuran visualizer; perubahan kecepatan mengatur gerak lengkungan, EQ, dan partikel.
+- [x] Di viewport ponsel, tombol Simpan proyek dan Buka proyek tetap terlihat pada baris kedua header sehingga proyek bergambar latar dapat disimpan/dibuka tanpa tombol meluber.
 - [x] Sediakan Particle Effect Overlay yang bisa diaktif/nonaktifkan, mengatur opacity, dan ditampilkan di atas latar.
 - [x] Tambahkan EQ Effect Overlay dengan minimal tiga warna terpisah untuk low 40–250 Hz, medium 250–2.000 Hz, dan high 2.000–10.000 Hz; tiap warna menggerakkan layer frekuensi yang sesuai dan warnanya bisa diubah.
 - [x] Sediakan input gambar lokal sebagai background dengan pilihan cover/contain dan penggelap latar; gambar diproses di perangkat, dibatasi 12 MB dan diperkecil sekali hingga sisi maksimum 1.600 px, serta ikut tersimpan saat proyek disimpan.
@@ -46,7 +49,7 @@
 
 ## Antarmuka, referensi, dan kelancaran
 - [x] Tampilan UI dibuat menarik, profesional, dan mencakup panel efek, lirik, pemutar, proyek, performa, serta ekspor.
-- [ ] Bandingkan langsung jumlah/variasi dengan contoh yang dimaksud pengguna; contoh tersebut belum dilampirkan. Implementasi saat ini menyediakan 9 variasi EQ dan 12 skin partikel.
+- [x] Analisis dan adaptasi video referensi pengguna: lengkungan simetris, bokeh, judul, dan progress player. Implementasi menyediakan 10 pilihan EQ dan 12 skin partikel aktif plus Off.
 - [ ] Pastikan kelancaran di HP Android 7.1.2 RAM 3 dan PC Windows 7 32-bit RAM 3 melalui pengujian langsung perangkat; mode hemat telah tersedia, tetapi belum diuji pada perangkat target.
-- [x] Buat repository GitHub private berisi source aplikasi Android dan Workflow GitHub Actions yang membangun APK installable; terbitkan APK pada GitHub Releases agar dapat diunduh pengguna. Repository utama Mobile tetap Manus-managed. Source ada di `paklekucup-keren/audio-visualizer-studio-android` branch `main`; workflow standalone sukses pada run `40195574929`, dan release `android-v1.0.1` berisi APK serta ZIP.
+- [x] Buat repository GitHub private berisi source aplikasi Android dan Workflow GitHub Actions yang membangun APK installable; terbitkan APK pada GitHub Releases agar dapat diunduh pengguna. Repository utama Mobile tetap Manus-managed. Source ada di `paklekucup-keren/audio-visualizer-studio-android` branch `main`; v1.0.2 rilis pada run `40206740511` dengan APK serta ZIP.
 - [x] Setelah APK dibangun dan hasil implementasi final siap, beritahu pengguna melalui percakapan ini serta jelaskan hasil pengujian/perangkat fisik yang masih diperlukan.
