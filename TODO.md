@@ -9,7 +9,7 @@
 - [x] Sediakan arsip ZIP v1.0.0 yang dapat diunduh lalu diekstrak di HP, berisi APK dan petunjuk pemasangan; setelah ekstraksi, ketuk APK (tidak mengekstrak isi APK). ZIP itu berisi build `assembleDebug` yang teridentifikasi sebagai penyebab macet dan harus digantikan.
 - [x] Terbitkan pembaruan APK standalone Android v1.0.1 (`versionCode: 2`) dari Gradle `:app:assembleRelease` agar bundle JavaScript tertanam dan aplikasi dapat mulai offline tanpa Metro; unggah APK serta ZIP berisi APK dan petunjuk ke GitHub Release. Run `40195574929` sukses; APK berisi `assets/index.android.bundle`, ZIP valid dan memuat APK identik serta `PETUNJUK.txt`.
 - [x] Terbitkan APK standalone v1.0.2 (`versionCode: 3`) dengan fitur visualizer dari video referensi; run `40206740511` sukses setelah 32 menit, APK berisi bundle JavaScript 3.875.000 byte, dan ZIP valid dengan APK identik serta `PETUNJUK.txt`.
-- [ ] Terbitkan v1.0.3 (`versionCode: 4`) setelah perbaikan responsif membuat tombol Simpan proyek/Buka proyek terlihat pada ponsel; screenshot Web Preview 390×844 sudah mengonfirmasi layout, tetapi APK pembaruan belum dibangun.
+- [x] Terbitkan v1.0.3 (`versionCode: 4`) dengan perbaikan responsif agar tombol Simpan proyek/Buka proyek terlihat pada ponsel; run `40209720636` sukses dalam 28 menit 3 detik. APK berisi bundle JS 3.876.404 byte, ZIP valid dengan APK identik dan `PETUNJUK.txt`; screenshot Preview 390×844 dan 320×720 mengonfirmasi kontrol tidak terpotong.
 - [ ] Verifikasi APK pada perangkat Android 7.1.2 RAM 3 GB untuk instalasi, penggunaan offline, pemilihan audio, ekspor video/share sheet, dan kelancaran.
 
 ## Program desktop offline Windows 7 32-bit
@@ -51,5 +51,5 @@
 - [x] Tampilan UI dibuat menarik, profesional, dan mencakup panel efek, lirik, pemutar, proyek, performa, serta ekspor.
 - [x] Analisis dan adaptasi video referensi pengguna: lengkungan simetris, bokeh, judul, dan progress player. Implementasi menyediakan 10 pilihan EQ dan 12 skin partikel aktif plus Off.
 - [ ] Pastikan kelancaran di HP Android 7.1.2 RAM 3 dan PC Windows 7 32-bit RAM 3 melalui pengujian langsung perangkat; mode hemat telah tersedia, tetapi belum diuji pada perangkat target.
-- [x] Buat repository GitHub private berisi source aplikasi Android dan Workflow GitHub Actions yang membangun APK installable; terbitkan APK pada GitHub Releases agar dapat diunduh pengguna. Repository utama Mobile tetap Manus-managed. Source ada di `paklekucup-keren/audio-visualizer-studio-android` branch `main`; v1.0.2 rilis pada run `40206740511` dengan APK serta ZIP.
+- [x] Buat repository GitHub private berisi source aplikasi Android dan Workflow GitHub Actions yang membangun APK installable; terbitkan APK pada GitHub Releases agar dapat diunduh pengguna. Repository utama Mobile tetap Manus-managed. Source ada di `paklekucup-keren/audio-visualizer-studio-android` branch `main`; rilis terbaru v1.0.3 selesai pada run `40209720636` dengan APK serta ZIP.
 - [x] Setelah APK dibangun dan hasil implementasi final siap, beritahu pengguna melalui percakapan ini serta jelaskan hasil pengujian/perangkat fisik yang masih diperlukan.

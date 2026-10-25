@@ -2,7 +2,22 @@
 
 Repository GitHub private untuk source Android: [paklekucup-keren/audio-visualizer-studio-android](https://github.com/paklekucup-keren/audio-visualizer-studio-android). Repository utama Mobile tetap Manus-managed; GitHub menjadi mirror source dan tempat unduh rilis Android.
 
-## Rilis terbaru: v1.0.2 standalone
+## Rilis terbaru: v1.0.3 standalone
+
+- Tag: `android-v1.0.3`
+- Release: [Audio Visualizer Studio Android v1.0.3](https://github.com/paklekucup-keren/audio-visualizer-studio-android/releases/tag/android-v1.0.3)
+- APK langsung: [Audio-Visualizer-Studio-v1.0.3.apk](https://github.com/paklekucup-keren/audio-visualizer-studio-android/releases/download/android-v1.0.3/Audio-Visualizer-Studio-v1.0.3.apk)
+- Arsip unduh-ekstrak: [Audio-Visualizer-Studio-Android-v1.0.3.zip](https://github.com/paklekucup-keren/audio-visualizer-studio-android/releases/download/android-v1.0.3/Audio-Visualizer-Studio-Android-v1.0.3.zip)
+- Build: GitHub Actions run [`40209720636`](https://github.com/paklekucup-keren/audio-visualizer-studio-android/actions/runs/40209720636), sukses dalam 28 menit 3 detik melalui `:app:assembleRelease`.
+- Pemeriksaan artefak: APK memuat `assets/index.android.bundle` (3.876.404 byte); ZIP lolos pemeriksaan integritas dan memuat APK identik byte demi byte serta `PETUNJUK.txt`.
+- Ukuran APK: 63.746.366 byte; SHA-256 `a2ce8884563ab7afedaaf118775b11b946810c78278de03c917c4ade6eb07a35`.
+- Ukuran ZIP: 63.747.049 byte; SHA-256 `2dbc58a889484f3f5d5b9e18b69159d0af6664f793a7679fad33ed2e090999b1`.
+- UI mobile diperiksa pada Preview ukuran 390×844 dan 320×720: tombol Simpan/Buka proyek tetap terlihat, dan baris pemilih audio tidak terlipat pada layar kecil.
+- Rilis berstatus prerelease/sideload, bukan APK produksi Play Store. Pengujian langsung pada Android 7.1.2 RAM 3 GB belum dilakukan.
+
+Untuk memasang v1.0.3: unduh APK langsung atau unduh ZIP lalu ekstrak dengan Files/Pengelola File; ketuk `Audio-Visualizer-Studio-v1.0.3.apk` (jangan mengekstrak isi APK). Izinkan instalasi dari sumber tersebut jika Android memintanya. Coba pasang sebagai pembaruan; jika Android menolak karena konflik tanda tangan/paket, hapus aplikasi lama lalu pasang v1.0.3. Menghapus aplikasi dapat menghapus data lokal. Repository private sehingga perlu login ke akun GitHub yang memiliki akses.
+
+## Rilis sebelumnya: v1.0.2 standalone
 
 - Tag: `android-v1.0.2`
 - Release: [Audio Visualizer Studio Android v1.0.2](https://github.com/paklekucup-keren/audio-visualizer-studio-android/releases/tag/android-v1.0.2)
@@ -12,7 +27,7 @@ Repository GitHub private untuk source Android: [paklekucup-keren/audio-visualiz
 - Pemeriksaan artefak: APK memuat `assets/index.android.bundle` (3.875.000 byte); ZIP lolos pemeriksaan integritas dan memuat APK identik byte demi byte serta `PETUNJUK.txt`.
 - Ukuran APK: 63.744.962 byte; SHA-256 `fad7964ad1e2a45f9d43c8fc3688b5d9c18d322ce9b625dc7405ac80409afbe0`.
 - Ukuran ZIP: 63.745.645 byte; SHA-256 `dddec0c5c9ffdf8f1a36e8a8e5f155f8c7afc719c76480c56186f49b651c1570`.
-- Catatan v1.0.2: fitur lengkungan simetris, bokeh, kecepatan/ukuran, Particle Overlay, EQ tiga-band, gambar latar, dan judul/progress tersedia. Tombol Simpan/Buka proyek masih tersembunyi pada lebar layar ponsel; perbaikan responsif sudah diverifikasi di Preview dan perlu rilis APK lanjutan. Uji langsung Android 7.1.2 RAM 3 GB belum dilakukan.
+- Catatan v1.0.2: fitur lengkungan simetris, bokeh, kecepatan/ukuran, Particle Overlay, EQ tiga-band, gambar latar, dan judul/progress tersedia. Tombol Simpan/Buka proyek sebelumnya tersembunyi pada lebar ponsel; telah diperbaiki dan dibangun di v1.0.3.
 
 Untuk memasang v1.0.2: unduh APK langsung atau unduh ZIP lalu ekstrak dengan Files/Pengelola File; ketuk `Audio-Visualizer-Studio-v1.0.2.apk` (jangan mengekstrak isi APK). Izinkan instalasi dari sumber tersebut jika Android memintanya. Coba pasang sebagai pembaruan terlebih dahulu; jika Android menolak karena konflik tanda tangan/paket, hapus aplikasi lama lalu pasang v1.0.2. Menghapus aplikasi dapat menghapus data lokal. Repository private sehingga perlu login ke akun GitHub yang memiliki akses.
 
